@@ -1,0 +1,54 @@
+services:
+  - type: web
+    name: nabz-zarin-api
+    runtime: docker
+    plan: starter
+    region: frankfurt
+    dockerfilePath: ./services/api/Dockerfile
+    dockerContext: ./services/api
+    healthCheckPath: /healthz
+    maxShutdownDelaySeconds: 30
+    envVars:
+      - key: PORT
+        value: "10000"
+      - key: TZ
+        value: Asia/Tehran
+      - key: DATASET_URL
+        value: https://startech.s3.ir-thr-at1.arvanstorage.ir/other%2Fchallenge_data.csv.gz?versionId=
+      - key: DATASET_SHA256
+        sync: false
+      - key: ALLOW_DEMO_FALLBACK
+        value: "false"
+      - key: INTERNAL_API_KEY
+        generateValue: true
+
+  - type: web
+    name: nabz-zarin-web
+    runtime: docker
+    plan: starter
+    region: frankfurt
+    dockerfilePath: ./apps/web/Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health
+    maxShutdownDelaySeconds: 30
+    envVars:
+      - key: PORT
+        value: "10000"
+      - key: NODE_ENV
+        value: production
+      - key: TZ
+        value: Asia/Tehran
+      - key: API_HOSTPORT
+        fromService:
+          type: web
+          name: nabz-zarin-api
+          property: hostport
+      - key: INTERNAL_API_KEY
+        fromService:
+          type: web
+          name: nabz-zarin-api
+          envVarKey: INTERNAL_API_KEY
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-5.6-sol

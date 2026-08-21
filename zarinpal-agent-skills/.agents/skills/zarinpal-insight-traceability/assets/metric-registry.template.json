@@ -1,0 +1,29 @@
+{
+  "metric_id": "verified_revenue",
+  "name": "Verified revenue",
+  "business_question": "How much value was completed and verified during the selected period?",
+  "decision": "Monitor performance and investigate meaningful declines or increases.",
+  "grain": "session",
+  "formula": "SUM(amount) over one validated canonical row per session where session_status = 'Verified'",
+  "numerator": "Sum of amount for eligible verified sessions",
+  "denominator": null,
+  "source_columns": [
+    "session_key",
+    "amount",
+    "session_status",
+    "created_at"
+  ],
+  "filters": {},
+  "exclusions": [
+    "Sessions failing session-level consistency validation"
+  ],
+  "null_policy": "Required fields must be non-null; invalid sessions are quarantined and counted.",
+  "unit": "IRR",
+  "weighting": "session-weighted",
+  "minimum_sample_rule": "At least 1 eligible verified session; suppress comparisons when the baseline is absent.",
+  "owner": "analytics",
+  "version": "1.0.0",
+  "tests": [
+    "tests/metrics/test_verified_revenue.py"
+  ]
+}

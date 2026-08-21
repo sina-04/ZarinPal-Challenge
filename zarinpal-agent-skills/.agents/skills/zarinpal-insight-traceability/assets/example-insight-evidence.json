@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0",
+  "insight_id": "merchant-M1.verified-revenue.2026-01",
+  "metric_id": "verified_revenue",
+  "title": "Verified revenue declined",
+  "statement": "Verified revenue fell 12.4% compared with the previous 30-day period.",
+  "insight_type": "recommendation",
+  "value": 876000000,
+  "unit": "IRR",
+  "grain": "session",
+  "population": "Validated sessions for merchant M1 created from 2026-01-01 through 2026-01-30",
+  "formula": "SUM(amount) for one canonical row per session where session_status = 'Verified'",
+  "source_columns": [
+    "session_key",
+    "merchant_key",
+    "amount",
+    "session_status",
+    "created_at"
+  ],
+  "filters": {
+    "merchant_key": "M1",
+    "session_status": "Verified"
+  },
+  "exclusions": [
+    "Sessions with inconsistent session-level fields"
+  ],
+  "null_policy": "Rows missing required session fields are quarantined and reported, not imputed.",
+  "date_range": {
+    "start": "2026-01-01T00:00:00",
+    "end": "2026-01-30T23:59:59"
+  },
+  "timezone": "Asia/Tehran",
+  "sample_size": 1842,
+  "comparison": {
+    "type": "previous_period",
+    "value": 1000000000,
+    "absolute_difference": -124000000,
+    "relative_difference": -0.124,
+    "definition": "The immediately preceding 30-day period using the same eligibility rules.",
+    "weighting": "session-weighted"
+  },
+  "weighting": "session-weighted",
+  "minimum_sample_rule": "Both periods require at least 100 eligible verified sessions.",
+  "calculation_version": "verified_revenue@1.0.0",
+  "reproduction": {
+    "method": "query_registry",
+    "reference": "analytics/queries/verified_revenue.sql",
+    "parameters_hash": "sha256:example-placeholder",
+    "git_revision": "example-commit"
+  },
+  "limitations": [
+    "The result is descriptive and does not identify a causal reason for the decline.",
+    "Revenue is calculated at session grain after consistency validation."
+  ],
+  "recommendation": {
+    "action": "Review the repeat-customer and high-value-session breakdown before changing campaigns.",
+    "trigger": "Verified revenue declined by more than 10% with at least 100 eligible sessions in both periods.",
+    "expected_mechanism": "The decomposition identifies whether the decline is concentrated in customer retention, transaction frequency, or session amount.",
+    "priority": "high",
+    "confidence": "supported",
+    "measurement_plan": "Track verified revenue, repeat-customer revenue, verified session count, and median session amount for the next 30 days."
+  },
+  "generated_at": "2026-08-21T12:00:00Z"
+}

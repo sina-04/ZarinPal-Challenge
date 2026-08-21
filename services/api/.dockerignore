@@ -1,0 +1,9 @@
+__pycache__
+.pytest_cache
+.coverage
+tests
+data
+artifacts
+*.duckdb
+*.duckdb.wal
+*.part

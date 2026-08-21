@@ -1,0 +1,73 @@
+{
+  "custom_skills": [
+    {
+      "name": "zarinpal-data-contract",
+      "path": ".agents/skills/zarinpal-data-contract"
+    },
+    {
+      "name": "zarinpal-insight-traceability",
+      "path": ".agents/skills/zarinpal-insight-traceability"
+    },
+    {
+      "name": "modern-ai-ui-builder",
+      "path": ".agents/skills/modern-ai-ui-builder"
+    }
+  ],
+  "external_skills": [
+    {
+      "name": "shadcn",
+      "repo": "shadcn/ui",
+      "path": "skills/shadcn"
+    },
+    {
+      "name": "ai-elements",
+      "repo": "vercel/ai-elements",
+      "path": "skills/ai-elements"
+    },
+    {
+      "name": "vercel-react-best-practices",
+      "repo": "vercel-labs/agent-skills",
+      "path": "skills/react-best-practices"
+    },
+    {
+      "name": "web-design-guidelines",
+      "repo": "vercel-labs/agent-skills",
+      "path": "skills/web-design-guidelines"
+    },
+    {
+      "name": "frontend-design",
+      "repo": "anthropics/skills",
+      "path": "skills/frontend-design"
+    },
+    {
+      "name": "responsive-craft",
+      "repo": "kylezantos/responsive-craft",
+      "path": "."
+    },
+    {
+      "name": "data-visualization",
+      "repo": "NTCoding/claude-skillz",
+      "path": "data-visualization"
+    },
+    {
+      "name": "data-analyst",
+      "repo": "borghei/Claude-Skills",
+      "path": "data-analytics/data-analyst"
+    },
+    {
+      "name": "data-scientist",
+      "repo": "borghei/Claude-Skills",
+      "path": "data-analytics/data-scientist"
+    },
+    {
+      "name": "business-intelligence",
+      "repo": "borghei/Claude-Skills",
+      "path": "data-analytics/business-intelligence"
+    },
+    {
+      "name": "playwright-skill",
+      "repo": "testdino-hq/playwright-skill",
+      "path": "."
+    }
+  ]
+}

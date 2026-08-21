@@ -1,0 +1,32 @@
+{
+  "name": "nabz-zarin",
+  "version": "0.1.0",
+  "private": true,
+  "description": "نبض زرین — traceable merchant analytics for the ZarinPal data challenge",
+  "packageManager": "pnpm@11.22.0",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "dev:web": "pnpm --dir apps/web dev",
+    "dev:api": "python -m uvicorn app.main:app --app-dir services/api --host 0.0.0.0 --port 8000",
+    "build": "pnpm --dir apps/web build",
+    "lint": "pnpm --dir apps/web lint",
+    "typecheck": "pnpm --dir apps/web typecheck",
+    "test": "pnpm test:web && pnpm test:api",
+    "test:web": "pnpm --dir apps/web test",
+    "test:api": "python -m pytest services/api/tests",
+    "api:types": "pnpm --dir apps/web api:types",
+    "api:types:check": "pnpm --dir apps/web api:types:check",
+    "e2e": "playwright test",
+    "e2e:headed": "playwright test --headed",
+    "e2e:debug": "playwright test --debug",
+    "e2e:report": "playwright show-report",
+    "e2e:install": "playwright install --with-deps chromium"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@playwright/test": "1.62.1"
+  }
+}

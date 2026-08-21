@@ -1,0 +1,2409 @@
+{
+  "components": {
+    "schemas": {
+      "AmountBandRow": {
+        "additionalProperties": false,
+        "properties": {
+          "band_id": {
+            "title": "Band Id",
+            "type": "string"
+          },
+          "conversion_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Conversion Rate"
+          },
+          "evidence_id": {
+            "title": "Evidence Id",
+            "type": "string"
+          },
+          "label_fa": {
+            "title": "Label Fa",
+            "type": "string"
+          },
+          "max_exclusive_irr": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Exclusive Irr"
+          },
+          "min_irr": {
+            "title": "Min Irr",
+            "type": "integer"
+          },
+          "sessions": {
+            "title": "Sessions",
+            "type": "integer"
+          },
+          "verified_revenue": {
+            "title": "Verified Revenue",
+            "type": "integer"
+          },
+          "verified_sessions": {
+            "title": "Verified Sessions",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "band_id",
+          "label_fa",
+          "min_irr",
+          "max_exclusive_irr",
+          "sessions",
+          "verified_sessions",
+          "conversion_rate",
+          "verified_revenue",
+          "evidence_id"
+        ],
+        "title": "AmountBandRow",
+        "type": "object"
+      },
+      "AttemptEvidenceRecord": {
+        "additionalProperties": false,
+        "properties": {
+          "init_time_ms": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Init Time Ms"
+          },
+          "psp_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Psp Code"
+          },
+          "session_key": {
+            "title": "Session Key",
+            "type": "string"
+          },
+          "switch_response_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Switch Response Code"
+          },
+          "try_created_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Try Created At"
+          },
+          "try_seq": {
+            "title": "Try Seq",
+            "type": "integer"
+          },
+          "try_status": {
+            "title": "Try Status",
+            "type": "string"
+          },
+          "verify_time_ms": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Verify Time Ms"
+          }
+        },
+        "required": [
+          "session_key",
+          "try_seq",
+          "try_created_at",
+          "try_status",
+          "psp_code",
+          "switch_response_code",
+          "init_time_ms",
+          "verify_time_ms"
+        ],
+        "title": "AttemptEvidenceRecord",
+        "type": "object"
+      },
+      "CalculationInputs": {
+        "additionalProperties": false,
+        "properties": {
+          "denominator_definition": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Denominator Definition"
+          },
+          "denominator_value": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Denominator Value"
+          },
+          "numerator_definition": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Numerator Definition"
+          },
+          "numerator_value": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Numerator Value"
+          }
+        },
+        "required": [
+          "numerator_definition",
+          "numerator_value",
+          "denominator_definition",
+          "denominator_value"
+        ],
+        "title": "CalculationInputs",
+        "type": "object"
+      },
+      "Comparison": {
+        "additionalProperties": false,
+        "properties": {
+          "absolute_difference": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Absolute Difference"
+          },
+          "definition": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Definition"
+          },
+          "relative_difference": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Relative Difference"
+          },
+          "type": {
+            "enum": [
+              "none",
+              "previous_period",
+              "previous_year",
+              "peer_group",
+              "target",
+              "baseline"
+            ],
+            "title": "Type",
+            "type": "string"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          },
+          "weighting": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Weighting"
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "title": "Comparison",
+        "type": "object"
+      },
+      "ConfidenceInterval": {
+        "additionalProperties": false,
+        "properties": {
+          "high": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "High"
+          },
+          "low": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Low"
+          }
+        },
+        "required": [
+          "low",
+          "high"
+        ],
+        "title": "ConfidenceInterval",
+        "type": "object"
+      },
+      "DashboardInsight": {
+        "additionalProperties": false,
+        "properties": {
+          "insight_id": {
+            "title": "Insight Id",
+            "type": "string"
+          },
+          "metric_id": {
+            "title": "Metric Id",
+            "type": "string"
+          },
+          "recommendation": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Recommendation"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "statement": {
+            "title": "Statement",
+            "type": "string"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "insight_id",
+          "metric_id",
+          "title",
+          "statement"
+        ],
+        "title": "DashboardInsight",
+        "type": "object"
+      },
+      "DashboardKpi": {
+        "additionalProperties": false,
+        "properties": {
+          "comparison": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Comparison"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "confidence_interval_95": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ConfidenceInterval"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "evidence_id": {
+            "title": "Evidence Id",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "metric_id": {
+            "title": "Metric Id",
+            "type": "string"
+          },
+          "unit": {
+            "title": "Unit",
+            "type": "string"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          }
+        },
+        "required": [
+          "metric_id",
+          "label",
+          "value",
+          "unit",
+          "evidence_id"
+        ],
+        "title": "DashboardKpi",
+        "type": "object"
+      },
+      "DashboardMerchant": {
+        "additionalProperties": false,
+        "properties": {
+          "category_id": {
+            "title": "Category Id",
+            "type": "integer"
+          },
+          "category_title": {
+            "title": "Category Title",
+            "type": "string"
+          },
+          "merchant_key": {
+            "title": "Merchant Key",
+            "type": "string"
+          },
+          "terminal_count": {
+            "title": "Terminal Count",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "merchant_key",
+          "category_id",
+          "category_title",
+          "terminal_count"
+        ],
+        "title": "DashboardMerchant",
+        "type": "object"
+      },
+      "DashboardMeta": {
+        "additionalProperties": false,
+        "properties": {
+          "calculation_version": {
+            "title": "Calculation Version",
+            "type": "string"
+          },
+          "data_freshness": {
+            "title": "Data Freshness",
+            "type": "string"
+          },
+          "date_from": {
+            "format": "date",
+            "title": "Date From",
+            "type": "string"
+          },
+          "date_to": {
+            "format": "date",
+            "title": "Date To",
+            "type": "string"
+          },
+          "merchant_key": {
+            "title": "Merchant Key",
+            "type": "string"
+          },
+          "partial_data": {
+            "title": "Partial Data",
+            "type": "boolean"
+          },
+          "source_kind": {
+            "title": "Source Kind",
+            "type": "string"
+          },
+          "timezone": {
+            "const": "Asia/Tehran",
+            "title": "Timezone",
+            "type": "string"
+          }
+        },
+        "required": [
+          "merchant_key",
+          "date_from",
+          "date_to",
+          "timezone",
+          "source_kind",
+          "data_freshness",
+          "partial_data",
+          "calculation_version"
+        ],
+        "title": "DashboardMeta",
+        "type": "object"
+      },
+      "DashboardResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "adjusted_fee_notice": {
+            "title": "Adjusted Fee Notice",
+            "type": "string"
+          },
+          "amount_bands": {
+            "items": {
+              "$ref": "#/components/schemas/AmountBandRow"
+            },
+            "title": "Amount Bands",
+            "type": "array"
+          },
+          "insights": {
+            "items": {
+              "$ref": "#/components/schemas/DashboardInsight"
+            },
+            "title": "Insights",
+            "type": "array"
+          },
+          "kpis": {
+            "items": {
+              "$ref": "#/components/schemas/DashboardKpi"
+            },
+            "title": "Kpis",
+            "type": "array"
+          },
+          "latency": {
+            "$ref": "#/components/schemas/LatencySection"
+          },
+          "lifecycle": {
+            "$ref": "#/components/schemas/LifecycleSection"
+          },
+          "merchant": {
+            "$ref": "#/components/schemas/DashboardMerchant"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/DashboardMeta"
+          },
+          "metric_registry": {
+            "items": {
+              "$ref": "#/components/schemas/MetricRegistryItem"
+            },
+            "title": "Metric Registry",
+            "type": "array"
+          },
+          "opportunity": {
+            "$ref": "#/components/schemas/OpportunitySection"
+          },
+          "paid_not_verified": {
+            "$ref": "#/components/schemas/PaidNotVerifiedSection"
+          },
+          "peer": {
+            "$ref": "#/components/schemas/PeerSection"
+          },
+          "psp_code_coverage": {
+            "$ref": "#/components/schemas/PspCodeCoverage"
+          },
+          "psp_codes": {
+            "items": {
+              "$ref": "#/components/schemas/PspCodeRow"
+            },
+            "title": "Psp Codes",
+            "type": "array"
+          },
+          "repeat": {
+            "$ref": "#/components/schemas/RepeatSection"
+          },
+          "retry": {
+            "$ref": "#/components/schemas/RetrySection"
+          },
+          "revenue_decomposition": {
+            "$ref": "#/components/schemas/RevenueDecomposition"
+          },
+          "trend": {
+            "items": {
+              "$ref": "#/components/schemas/TrendPoint"
+            },
+            "title": "Trend",
+            "type": "array"
+          }
+        },
+        "required": [
+          "meta",
+          "merchant",
+          "kpis",
+          "lifecycle",
+          "trend",
+          "amount_bands",
+          "revenue_decomposition",
+          "retry",
+          "repeat",
+          "paid_not_verified",
+          "latency",
+          "psp_codes",
+          "psp_code_coverage",
+          "peer",
+          "opportunity",
+          "insights",
+          "metric_registry",
+          "adjusted_fee_notice"
+        ],
+        "title": "DashboardResponse",
+        "type": "object"
+      },
+      "DecompositionEvidenceIds": {
+        "additionalProperties": false,
+        "properties": {
+          "conversion_rate": {
+            "title": "Conversion Rate",
+            "type": "string"
+          },
+          "sessions": {
+            "title": "Sessions",
+            "type": "string"
+          },
+          "verified_aov": {
+            "title": "Verified Aov",
+            "type": "string"
+          },
+          "verified_revenue": {
+            "title": "Verified Revenue",
+            "type": "string"
+          }
+        },
+        "required": [
+          "sessions",
+          "conversion_rate",
+          "verified_aov",
+          "verified_revenue"
+        ],
+        "title": "DecompositionEvidenceIds",
+        "type": "object"
+      },
+      "DecompositionPeriod": {
+        "additionalProperties": false,
+        "properties": {
+          "conversion_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Conversion Rate"
+          },
+          "sessions": {
+            "title": "Sessions",
+            "type": "integer"
+          },
+          "verified_aov": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Verified Aov"
+          },
+          "verified_revenue": {
+            "title": "Verified Revenue",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "sessions",
+          "conversion_rate",
+          "verified_aov",
+          "verified_revenue"
+        ],
+        "title": "DecompositionPeriod",
+        "type": "object"
+      },
+      "EvidenceDateRange": {
+        "additionalProperties": false,
+        "properties": {
+          "end": {
+            "title": "End",
+            "type": "string"
+          },
+          "start": {
+            "title": "Start",
+            "type": "string"
+          }
+        },
+        "required": [
+          "start",
+          "end"
+        ],
+        "title": "EvidenceDateRange",
+        "type": "object"
+      },
+      "EvidenceFilters": {
+        "additionalProperties": false,
+        "properties": {
+          "created_at_from": {
+            "title": "Created At From",
+            "type": "string"
+          },
+          "created_at_to": {
+            "title": "Created At To",
+            "type": "string"
+          },
+          "merchant_key": {
+            "title": "Merchant Key",
+            "type": "string"
+          },
+          "metric_rules": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Metric Rules",
+            "type": "array"
+          }
+        },
+        "required": [
+          "merchant_key",
+          "created_at_from",
+          "created_at_to",
+          "metric_rules"
+        ],
+        "title": "EvidenceFilters",
+        "type": "object"
+      },
+      "EvidenceRecordsResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "columns": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Columns",
+            "type": "array"
+          },
+          "grain": {
+            "enum": [
+              "session",
+              "attempt",
+              "customer_within_merchant"
+            ],
+            "title": "Grain",
+            "type": "string"
+          },
+          "insight_id": {
+            "title": "Insight Id",
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/SessionEvidenceRecord"
+                },
+                {
+                  "$ref": "#/components/schemas/AttemptEvidenceRecord"
+                }
+              ]
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Limitations",
+            "type": "array"
+          },
+          "merchant_key": {
+            "title": "Merchant Key",
+            "type": "string"
+          },
+          "page": {
+            "minimum": 1,
+            "title": "Page",
+            "type": "integer"
+          },
+          "page_size": {
+            "maximum": 100,
+            "minimum": 1,
+            "title": "Page Size",
+            "type": "integer"
+          },
+          "total": {
+            "minimum": 0,
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "insight_id",
+          "merchant_key",
+          "page",
+          "page_size",
+          "total",
+          "items",
+          "columns",
+          "grain",
+          "limitations"
+        ],
+        "title": "EvidenceRecordsResponse",
+        "type": "object"
+      },
+      "EvidenceReproduction": {
+        "additionalProperties": false,
+        "properties": {
+          "git_revision": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Git Revision"
+          },
+          "method": {
+            "enum": [
+              "query_registry",
+              "materialized_aggregate",
+              "analytical_function"
+            ],
+            "title": "Method",
+            "type": "string"
+          },
+          "parameters_hash": {
+            "title": "Parameters Hash",
+            "type": "string"
+          },
+          "reference": {
+            "title": "Reference",
+            "type": "string"
+          }
+        },
+        "required": [
+          "method",
+          "reference",
+          "parameters_hash"
+        ],
+        "title": "EvidenceReproduction",
+        "type": "object"
+      },
+      "EvidenceResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence": {
+            "$ref": "#/components/schemas/InsightEvidence"
+          }
+        },
+        "required": [
+          "evidence"
+        ],
+        "title": "EvidenceResponse",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "HealthResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "auth_configured": {
+            "title": "Auth Configured",
+            "type": "boolean"
+          },
+          "build_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Build Id"
+          },
+          "checksum_status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Checksum Status"
+          },
+          "database_ready": {
+            "title": "Database Ready",
+            "type": "boolean"
+          },
+          "source_kind": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Kind"
+          },
+          "source_sha256": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Sha256"
+          },
+          "status": {
+            "enum": [
+              "ok",
+              "degraded"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "database_ready",
+          "auth_configured"
+        ],
+        "title": "HealthResponse",
+        "type": "object"
+      },
+      "InsightEvidence": {
+        "additionalProperties": false,
+        "properties": {
+          "calculation_inputs": {
+            "$ref": "#/components/schemas/CalculationInputs"
+          },
+          "calculation_version": {
+            "title": "Calculation Version",
+            "type": "string"
+          },
+          "comparison": {
+            "$ref": "#/components/schemas/Comparison"
+          },
+          "date_range": {
+            "$ref": "#/components/schemas/EvidenceDateRange"
+          },
+          "exclusions": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Exclusions",
+            "type": "array"
+          },
+          "filters": {
+            "$ref": "#/components/schemas/EvidenceFilters"
+          },
+          "formula": {
+            "title": "Formula",
+            "type": "string"
+          },
+          "generated_at": {
+            "title": "Generated At",
+            "type": "string"
+          },
+          "grain": {
+            "enum": [
+              "attempt",
+              "session",
+              "customer_within_merchant",
+              "terminal",
+              "merchant",
+              "category",
+              "time_period"
+            ],
+            "title": "Grain",
+            "type": "string"
+          },
+          "insight_id": {
+            "title": "Insight Id",
+            "type": "string"
+          },
+          "insight_type": {
+            "enum": [
+              "descriptive",
+              "diagnostic",
+              "inferential",
+              "predictive",
+              "recommendation",
+              "alert"
+            ],
+            "title": "Insight Type",
+            "type": "string"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Limitations",
+            "type": "array"
+          },
+          "metric_id": {
+            "title": "Metric Id",
+            "type": "string"
+          },
+          "minimum_sample_rule": {
+            "title": "Minimum Sample Rule",
+            "type": "string"
+          },
+          "model_evidence": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Evidence"
+          },
+          "null_policy": {
+            "title": "Null Policy",
+            "type": "string"
+          },
+          "population": {
+            "title": "Population",
+            "type": "string"
+          },
+          "recommendation": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Recommendation"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reproduction": {
+            "$ref": "#/components/schemas/EvidenceReproduction"
+          },
+          "sample_size": {
+            "minimum": 0,
+            "title": "Sample Size",
+            "type": "integer"
+          },
+          "schema_version": {
+            "const": "1.0",
+            "title": "Schema Version",
+            "type": "string"
+          },
+          "source_columns": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Source Columns",
+            "type": "array"
+          },
+          "statement": {
+            "title": "Statement",
+            "type": "string"
+          },
+          "timezone": {
+            "const": "Asia/Tehran",
+            "title": "Timezone",
+            "type": "string"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "unit": {
+            "title": "Unit",
+            "type": "string"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          },
+          "weighting": {
+            "title": "Weighting",
+            "type": "string"
+          }
+        },
+        "required": [
+          "schema_version",
+          "insight_id",
+          "metric_id",
+          "title",
+          "statement",
+          "insight_type",
+          "value",
+          "unit",
+          "grain",
+          "population",
+          "formula",
+          "source_columns",
+          "filters",
+          "exclusions",
+          "null_policy",
+          "date_range",
+          "timezone",
+          "sample_size",
+          "comparison",
+          "calculation_inputs",
+          "weighting",
+          "minimum_sample_rule",
+          "calculation_version",
+          "reproduction",
+          "limitations",
+          "generated_at"
+        ],
+        "title": "InsightEvidence",
+        "type": "object"
+      },
+      "LatencySection": {
+        "additionalProperties": false,
+        "properties": {
+          "definition": {
+            "title": "Definition",
+            "type": "string"
+          },
+          "evidence_id": {
+            "title": "Evidence Id",
+            "type": "string"
+          },
+          "init_median_ms": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Init Median Ms"
+          },
+          "init_p90_ms": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Init P90 Ms"
+          },
+          "init_p95_ms": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Init P95 Ms"
+          },
+          "init_sample_size": {
+            "title": "Init Sample Size",
+            "type": "integer"
+          },
+          "psp_sample_size": {
+            "title": "Psp Sample Size",
+            "type": "integer"
+          },
+          "switch_code_sample_size": {
+            "title": "Switch Code Sample Size",
+            "type": "integer"
+          },
+          "verify_evidence_id": {
+            "title": "Verify Evidence Id",
+            "type": "string"
+          },
+          "verify_median_ms": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Verify Median Ms"
+          },
+          "verify_p90_ms": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Verify P90 Ms"
+          },
+          "verify_p95_ms": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Verify P95 Ms"
+          },
+          "verify_sample_size": {
+            "title": "Verify Sample Size",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "psp_sample_size",
+          "switch_code_sample_size",
+          "init_sample_size",
+          "init_median_ms",
+          "init_p90_ms",
+          "init_p95_ms",
+          "verify_sample_size",
+          "verify_median_ms",
+          "verify_p90_ms",
+          "verify_p95_ms",
+          "definition",
+          "evidence_id",
+          "verify_evidence_id"
+        ],
+        "title": "LatencySection",
+        "type": "object"
+      },
+      "LifecycleSection": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence_id": {
+            "title": "Evidence Id",
+            "type": "string"
+          },
+          "grain": {
+            "const": "session",
+            "title": "Grain",
+            "type": "string"
+          },
+          "stages": {
+            "items": {
+              "$ref": "#/components/schemas/LifecycleStage"
+            },
+            "title": "Stages",
+            "type": "array"
+          }
+        },
+        "required": [
+          "stages",
+          "grain",
+          "evidence_id"
+        ],
+        "title": "LifecycleSection",
+        "type": "object"
+      },
+      "LifecycleStage": {
+        "additionalProperties": false,
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "dropoff_from_previous": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dropoff From Previous"
+          },
+          "stage": {
+            "enum": [
+              "Created",
+              "Attempted",
+              "InBank",
+              "Paid",
+              "Verified"
+            ],
+            "title": "Stage",
+            "type": "string"
+          }
+        },
+        "required": [
+          "stage",
+          "count",
+          "dropoff_from_previous"
+        ],
+        "title": "LifecycleStage",
+        "type": "object"
+      },
+      "MerchantItem": {
+        "additionalProperties": false,
+        "properties": {
+          "category_id": {
+            "title": "Category Id",
+            "type": "integer"
+          },
+          "category_title": {
+            "title": "Category Title",
+            "type": "string"
+          },
+          "data_end": {
+            "format": "date",
+            "title": "Data End",
+            "type": "string"
+          },
+          "data_start": {
+            "format": "date",
+            "title": "Data Start",
+            "type": "string"
+          },
+          "is_featured_demo": {
+            "default": false,
+            "title": "Is Featured Demo",
+            "type": "boolean"
+          },
+          "merchant_key": {
+            "title": "Merchant Key",
+            "type": "string"
+          },
+          "session_count": {
+            "title": "Session Count",
+            "type": "integer"
+          },
+          "terminal_count": {
+            "title": "Terminal Count",
+            "type": "integer"
+          },
+          "verified_revenue": {
+            "title": "Verified Revenue",
+            "type": "integer"
+          },
+          "verified_session_count": {
+            "title": "Verified Session Count",
+            "type": "integer"
+          },
+          "verified_session_rate": {
+            "title": "Verified Session Rate",
+            "type": "number"
+          }
+        },
+        "required": [
+          "merchant_key",
+          "category_id",
+          "category_title",
+          "terminal_count",
+          "session_count",
+          "verified_session_count",
+          "verified_session_rate",
+          "verified_revenue",
+          "data_start",
+          "data_end"
+        ],
+        "title": "MerchantItem",
+        "type": "object"
+      },
+      "MerchantListResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "adjusted_fee_notice": {
+            "title": "Adjusted Fee Notice",
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/MerchantItem"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "adjusted_fee_notice"
+        ],
+        "title": "MerchantListResponse",
+        "type": "object"
+      },
+      "MetricRegistryItem": {
+        "additionalProperties": false,
+        "properties": {
+          "business_question": {
+            "title": "Business Question",
+            "type": "string"
+          },
+          "currency": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currency"
+          },
+          "decision": {
+            "title": "Decision",
+            "type": "string"
+          },
+          "denominator": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Denominator"
+          },
+          "description_fa": {
+            "title": "Description Fa",
+            "type": "string"
+          },
+          "exclusions": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Exclusions",
+            "type": "array"
+          },
+          "filters": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Filters",
+            "type": "array"
+          },
+          "formula": {
+            "title": "Formula",
+            "type": "string"
+          },
+          "grain": {
+            "enum": [
+              "attempt",
+              "session",
+              "customer_within_merchant",
+              "terminal",
+              "merchant",
+              "category",
+              "time_period"
+            ],
+            "title": "Grain",
+            "type": "string"
+          },
+          "metric_id": {
+            "title": "Metric Id",
+            "type": "string"
+          },
+          "minimum_sample_rule": {
+            "title": "Minimum Sample Rule",
+            "type": "string"
+          },
+          "name_fa": {
+            "title": "Name Fa",
+            "type": "string"
+          },
+          "null_policy": {
+            "title": "Null Policy",
+            "type": "string"
+          },
+          "numerator": {
+            "title": "Numerator",
+            "type": "string"
+          },
+          "owner": {
+            "title": "Owner",
+            "type": "string"
+          },
+          "rag_thresholds": {
+            "$ref": "#/components/schemas/RagThresholds"
+          },
+          "source_columns": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Source Columns",
+            "type": "array"
+          },
+          "tests": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Tests",
+            "type": "array"
+          },
+          "unit": {
+            "title": "Unit",
+            "type": "string"
+          },
+          "version": {
+            "title": "Version",
+            "type": "string"
+          },
+          "weighting": {
+            "title": "Weighting",
+            "type": "string"
+          }
+        },
+        "required": [
+          "metric_id",
+          "name_fa",
+          "description_fa",
+          "business_question",
+          "decision",
+          "grain",
+          "formula",
+          "numerator",
+          "denominator",
+          "source_columns",
+          "filters",
+          "exclusions",
+          "null_policy",
+          "unit",
+          "currency",
+          "weighting",
+          "minimum_sample_rule",
+          "owner",
+          "version",
+          "rag_thresholds",
+          "tests"
+        ],
+        "title": "MetricRegistryItem",
+        "type": "object"
+      },
+      "OpportunitySection": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence_id": {
+            "title": "Evidence Id",
+            "type": "string"
+          },
+          "formula": {
+            "title": "Formula",
+            "type": "string"
+          },
+          "is_forecast": {
+            "const": false,
+            "title": "Is Forecast",
+            "type": "boolean"
+          },
+          "unit": {
+            "title": "Unit",
+            "type": "string"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          }
+        },
+        "required": [
+          "value",
+          "unit",
+          "is_forecast",
+          "formula",
+          "evidence_id"
+        ],
+        "title": "OpportunitySection",
+        "type": "object"
+      },
+      "PaidNotVerifiedSection": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence_id": {
+            "title": "Evidence Id",
+            "type": "string"
+          },
+          "rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rate"
+          },
+          "sessions": {
+            "title": "Sessions",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "sessions",
+          "rate",
+          "evidence_id"
+        ],
+        "title": "PaidNotVerifiedSection",
+        "type": "object"
+      },
+      "PeerSection": {
+        "additionalProperties": false,
+        "properties": {
+          "definition": {
+            "title": "Definition",
+            "type": "string"
+          },
+          "eligible": {
+            "title": "Eligible",
+            "type": "boolean"
+          },
+          "gap_percentage_points": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Gap Percentage Points"
+          },
+          "median_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Median Rate"
+          },
+          "merchant_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Merchant Rate"
+          },
+          "minimum_sample_rule": {
+            "title": "Minimum Sample Rule",
+            "type": "string"
+          },
+          "p25_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "P25 Rate"
+          },
+          "p75_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "P75 Rate"
+          },
+          "peer_count": {
+            "title": "Peer Count",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "peer_count",
+          "median_rate",
+          "p25_rate",
+          "p75_rate",
+          "eligible",
+          "definition",
+          "minimum_sample_rule",
+          "merchant_rate",
+          "gap_percentage_points"
+        ],
+        "title": "PeerSection",
+        "type": "object"
+      },
+      "PspCodeCoverage": {
+        "additionalProperties": false,
+        "properties": {
+          "coded_attempts": {
+            "title": "Coded Attempts",
+            "type": "integer"
+          },
+          "coverage_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Coverage Rate"
+          },
+          "eligible_psp_attempts": {
+            "title": "Eligible Psp Attempts",
+            "type": "integer"
+          },
+          "evidence_id": {
+            "title": "Evidence Id",
+            "type": "string"
+          },
+          "missing_code_attempts": {
+            "title": "Missing Code Attempts",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "eligible_psp_attempts",
+          "coded_attempts",
+          "missing_code_attempts",
+          "coverage_rate",
+          "evidence_id"
+        ],
+        "title": "PspCodeCoverage",
+        "type": "object"
+      },
+      "PspCodeRow": {
+        "additionalProperties": false,
+        "properties": {
+          "associated_verified_attempts": {
+            "title": "Associated Verified Attempts",
+            "type": "integer"
+          },
+          "attempt_count": {
+            "title": "Attempt Count",
+            "type": "integer"
+          },
+          "evidence_id": {
+            "title": "Evidence Id",
+            "type": "string"
+          },
+          "psp_code": {
+            "title": "Psp Code",
+            "type": "string"
+          },
+          "switch_response_code": {
+            "title": "Switch Response Code",
+            "type": "string"
+          }
+        },
+        "required": [
+          "psp_code",
+          "switch_response_code",
+          "attempt_count",
+          "associated_verified_attempts",
+          "evidence_id"
+        ],
+        "title": "PspCodeRow",
+        "type": "object"
+      },
+      "RagThresholds": {
+        "additionalProperties": false,
+        "properties": {
+          "critical": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Critical"
+          },
+          "warning": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Warning"
+          }
+        },
+        "required": [
+          "warning",
+          "critical"
+        ],
+        "title": "RagThresholds",
+        "type": "object"
+      },
+      "Recommendation": {
+        "additionalProperties": false,
+        "properties": {
+          "action": {
+            "title": "Action",
+            "type": "string"
+          },
+          "confidence": {
+            "enum": [
+              "exploratory",
+              "supported",
+              "strong"
+            ],
+            "title": "Confidence",
+            "type": "string"
+          },
+          "expected_mechanism": {
+            "title": "Expected Mechanism",
+            "type": "string"
+          },
+          "measurement_plan": {
+            "title": "Measurement Plan",
+            "type": "string"
+          },
+          "priority": {
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ],
+            "title": "Priority",
+            "type": "string"
+          },
+          "trigger": {
+            "title": "Trigger",
+            "type": "string"
+          }
+        },
+        "required": [
+          "action",
+          "trigger",
+          "expected_mechanism",
+          "priority",
+          "confidence",
+          "measurement_plan"
+        ],
+        "title": "Recommendation",
+        "type": "object"
+      },
+      "RepeatSection": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence_id": {
+            "title": "Evidence Id",
+            "type": "string"
+          },
+          "observed_cards": {
+            "title": "Observed Cards",
+            "type": "integer"
+          },
+          "observed_repeat_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Observed Repeat Rate"
+          },
+          "repeat_cards": {
+            "title": "Repeat Cards",
+            "type": "integer"
+          },
+          "scope": {
+            "title": "Scope",
+            "type": "string"
+          }
+        },
+        "required": [
+          "observed_cards",
+          "repeat_cards",
+          "observed_repeat_rate",
+          "scope",
+          "evidence_id"
+        ],
+        "title": "RepeatSection",
+        "type": "object"
+      },
+      "RetrySection": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence_id": {
+            "title": "Evidence Id",
+            "type": "string"
+          },
+          "rescued_evidence_id": {
+            "title": "Rescued Evidence Id",
+            "type": "string"
+          },
+          "rescued_sessions": {
+            "title": "Rescued Sessions",
+            "type": "integer"
+          },
+          "retry_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Retry Rate"
+          },
+          "retry_sessions": {
+            "title": "Retry Sessions",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "retry_sessions",
+          "retry_rate",
+          "rescued_sessions",
+          "evidence_id",
+          "rescued_evidence_id"
+        ],
+        "title": "RetrySection",
+        "type": "object"
+      },
+      "RevenueDecomposition": {
+        "additionalProperties": false,
+        "properties": {
+          "current": {
+            "$ref": "#/components/schemas/DecompositionPeriod"
+          },
+          "evidence_ids": {
+            "$ref": "#/components/schemas/DecompositionEvidenceIds"
+          },
+          "note": {
+            "title": "Note",
+            "type": "string"
+          },
+          "previous": {
+            "$ref": "#/components/schemas/DecompositionPeriod"
+          }
+        },
+        "required": [
+          "current",
+          "previous",
+          "note",
+          "evidence_ids"
+        ],
+        "title": "RevenueDecomposition",
+        "type": "object"
+      },
+      "SessionEvidenceRecord": {
+        "additionalProperties": false,
+        "properties": {
+          "amount": {
+            "title": "Amount",
+            "type": "integer"
+          },
+          "attempt_count": {
+            "title": "Attempt Count",
+            "type": "integer"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "final_try_status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Final Try Status"
+          },
+          "payer_card_key": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payer Card Key"
+          },
+          "psp_path": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Psp Path"
+          },
+          "session_key": {
+            "title": "Session Key",
+            "type": "string"
+          },
+          "session_status": {
+            "title": "Session Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "session_key",
+          "created_at",
+          "session_status",
+          "amount",
+          "attempt_count",
+          "final_try_status",
+          "psp_path",
+          "payer_card_key"
+        ],
+        "title": "SessionEvidenceRecord",
+        "type": "object"
+      },
+      "TrendPoint": {
+        "additionalProperties": false,
+        "properties": {
+          "date": {
+            "format": "date",
+            "title": "Date",
+            "type": "string"
+          },
+          "sessions": {
+            "title": "Sessions",
+            "type": "integer"
+          },
+          "verified_revenue": {
+            "title": "Verified Revenue",
+            "type": "integer"
+          },
+          "verified_sessions": {
+            "title": "Verified Sessions",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "date",
+          "sessions",
+          "verified_sessions",
+          "verified_revenue"
+        ],
+        "title": "TrendPoint",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "summary": "Deterministic, traceable merchant analytics at canonical payment grains.",
+    "title": "نبض زرین — ZarinPal Merchant Analytics API",
+    "version": "0.1.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/v1/dashboard": {
+      "get": {
+        "operationId": "dashboard_api_v1_dashboard_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "merchant_key",
+            "required": true,
+            "schema": {
+              "maxLength": 64,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9_]+$",
+              "title": "Merchant Key",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "From"
+            }
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "To"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DashboardResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Dashboard",
+        "tags": [
+          "analytics"
+        ]
+      }
+    },
+    "/api/v1/insights/{insight_id}/evidence": {
+      "get": {
+        "operationId": "evidence_api_v1_insights__insight_id__evidence_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "insight_id",
+            "required": true,
+            "schema": {
+              "title": "Insight Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvidenceResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Evidence",
+        "tags": [
+          "evidence"
+        ]
+      }
+    },
+    "/api/v1/insights/{insight_id}/records": {
+      "get": {
+        "operationId": "records_api_v1_insights__insight_id__records_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "insight_id",
+            "required": true,
+            "schema": {
+              "title": "Insight Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "minimum": 1,
+              "title": "Page",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page_size",
+            "required": false,
+            "schema": {
+              "default": 25,
+              "maximum": 100,
+              "minimum": 1,
+              "title": "Page Size",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvidenceRecordsResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Records",
+        "tags": [
+          "evidence"
+        ]
+      }
+    },
+    "/api/v1/merchants": {
+      "get": {
+        "operationId": "merchants_api_v1_merchants_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MerchantListResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Merchants",
+        "tags": [
+          "analytics"
+        ]
+      }
+    },
+    "/healthz": {
+      "get": {
+        "operationId": "health_healthz_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Health",
+        "tags": [
+          "system"
+        ]
+      }
+    }
+  },
+  "x-backend-contract-sha256": "75af56ce26fae4bdcf2f5b93a62e8559fc29b6092a4d4975cd242499a0802711"
+}

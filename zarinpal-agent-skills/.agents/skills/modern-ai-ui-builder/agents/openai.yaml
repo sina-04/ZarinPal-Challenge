@@ -1,0 +1,4 @@
+interface:
+  display_name: "Modern AI UI Builder"
+  short_description: "Build coherent shadcn/ui and AI Elements interfaces."
+  brand_color: "#18181B"

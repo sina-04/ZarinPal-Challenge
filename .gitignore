@@ -1,0 +1,49 @@
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+
+# Node / Next.js
+node_modules/
+.next/
+apps/web/.next/
+apps/web/out/
+*.tsbuildinfo
+.turbo/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+
+# Generated analytical data (the source dataset must not be committed)
+challenge_data*.csv
+challenge_data*.csv.gz
+challenge_data*.xlsx
+*.duckdb
+*.duckdb.wal
+services/api/.data/
+artifacts/
+outputs/
+
+# Browser-test artifacts
+playwright-report/
+test-results/
+blob-report/
+playwright/.cache/
+playwright/.auth/
+
+# Logs and editor/OS state
+*.log
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+/.agents/
+/.codex-work/

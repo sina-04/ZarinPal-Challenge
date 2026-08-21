@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "url": "https://startech.s3.ir-thr-at1.arvanstorage.ir/other%2Fchallenge_data.csv.gz?versionId=",
+  "expected_sha256": null,
+  "checksum_status": "awaiting-first-successful-official-download",
+  "note": "The official host was unreachable during initial implementation. Bootstrap records the observed SHA-256 and enforces DATASET_SHA256 when supplied; no hash is fabricated.",
+  "local_cleaned_xlsx": {
+    "bytes": 119901253,
+    "sha256": "34b265c9d9c9fd865a838ed017fd7d62625f6d41ae23bfe7cca59e6a36d82693",
+    "attempt_rows": 1048575,
+    "status": "verified-local-fallback-with-spreadsheet-row-ceiling-risk",
+    "partial_data": true,
+    "note": "The retained rows are internally validated, but the count equals Excel's maximum data rows after one header row. Challenge-wide completeness requires the pinned official CSV.GZ."
+  }
+}
