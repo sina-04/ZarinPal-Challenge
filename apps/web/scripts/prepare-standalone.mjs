@@ -14,10 +14,20 @@ await cp(
   resolve(standaloneApp, ".next", "static"),
   { force: true, recursive: true },
 );
-await cp(resolve(appDirectory, "public"), resolve(standaloneApp, "public"), {
-  force: true,
-  recursive: true,
+const publicDirectory = resolve(appDirectory, "public");
+const standalonePublicDirectory = resolve(standaloneApp, "public");
+const publicDirectoryInfo = await stat(publicDirectory).catch((error) => {
+  if (error?.code === "ENOENT") return null;
+  throw error;
 });
+if (publicDirectoryInfo?.isDirectory()) {
+  await cp(publicDirectory, standalonePublicDirectory, {
+    force: true,
+    recursive: true,
+  });
+} else {
+  await rm(standalonePublicDirectory, { force: true, recursive: true });
+}
 
 // Next's Windows file tracer can retain the pnpm link while copying only the CJS
 // half of @swc/helpers. Copy the complete package so the standalone result is
