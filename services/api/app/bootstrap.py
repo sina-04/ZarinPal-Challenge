@@ -241,7 +241,16 @@ def resolve_source(
     if settings.dataset_path is not None:
         return _source_from_path(settings.dataset_path, settings.dataset_sha256)
 
-    # Local full-data fallbacks are preferred for reproducible development.
+    # A production bootstrap with a pinned checksum must resolve the configured
+    # URL before considering implicit developer fallbacks. Otherwise a repaired
+    # workbook sitting beside the repository could silently replace the complete
+    # official source even though the caller requested a checksum-verified build.
+    if download and (require_download_checksum or settings.dataset_sha256):
+        return _download_dataset(settings, require_checksum=True)
+
+    # Implicit local fallbacks remain available for unpinned developer workflows.
+    # Explicit DATASET_PATH above is the supported way to select either one when
+    # a checksum is configured.
     workbook = settings.workspace_root / "challenge_data_cleaned.xlsx"
     if workbook.exists():
         return _source_from_path(workbook, None)

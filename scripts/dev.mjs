@@ -16,6 +16,12 @@ const webArguments = isWindows
   : ["--dir", "apps/web", "dev"];
 const internalKey = process.env.INTERNAL_API_KEY ?? "local-development-only-change-me";
 const localWorkbook = resolve("challenge_data_cleaned.xlsx");
+const requestedService = process.argv[2] ?? "all";
+
+if (!["all", "api", "web"].includes(requestedService)) {
+  console.error(`[dev] Unknown service ${JSON.stringify(requestedService)}; use api, web, or all.`);
+  process.exit(2);
+}
 
 const sharedEnv = {
   ...process.env,
@@ -37,10 +43,12 @@ const webEnv = {
   API_BASE_URL: process.env.API_BASE_URL ?? "http://127.0.0.1:8000",
 };
 
-const children = [
-  spawn(
-    pythonCommand,
-    [
+const serviceDefinitions = [
+  {
+    label: "API",
+    key: "api",
+    command: pythonCommand,
+    args: [
       "-m",
       "uvicorn",
       "app.main:app",
@@ -51,27 +59,36 @@ const children = [
       "--port",
       "8000",
     ],
-    { env: apiEnv, stdio: "inherit" },
-  ),
-  spawn(webCommand, webArguments, {
+    env: apiEnv,
+  },
+  {
+    label: "web",
+    key: "web",
+    command: webCommand,
+    args: webArguments,
     env: webEnv,
-    stdio: "inherit",
-  }),
+  },
 ];
+
+const children = serviceDefinitions
+  .filter(({ key }) => requestedService === "all" || requestedService === key)
+  .map(({ label, command, args, env }) => ({
+    label,
+    child: spawn(command, args, { env, stdio: "inherit" }),
+  }));
 
 let shuttingDown = false;
 
 function stop(exitCode = 0) {
   if (shuttingDown) return;
   shuttingDown = true;
-  for (const child of children) {
+  for (const { child } of children) {
     if (!child.killed) child.kill(isWindows ? undefined : "SIGTERM");
   }
   setTimeout(() => process.exit(exitCode), 250).unref();
 }
 
-for (const [index, child] of children.entries()) {
-  const label = index === 0 ? "API" : "web";
+for (const { label, child } of children) {
   child.on("error", (error) => {
     console.error(`[dev] ${label} failed to start: ${error.message}`);
     stop(1);

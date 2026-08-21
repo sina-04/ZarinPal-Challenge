@@ -4,13 +4,16 @@ from pathlib import Path
 
 import duckdb
 import pytest
+import app.bootstrap as bootstrap_module
 
 from app.bootstrap import (
     DataContractError,
+    SourceInfo,
     SourceUnavailableError,
     XLSX_MAX_DATA_ROWS,
     _has_spreadsheet_ceiling_risk,
     bootstrap_database,
+    resolve_source,
 )
 from app.config import OFFICIAL_DATASET_URL, Settings
 from conftest import write_csv
@@ -95,6 +98,50 @@ def test_non_demo_url_bootstrap_requires_pinned_hash(tmp_path: Path) -> None:
             allow_demo_fallback=False,
         )
     assert not target.exists()
+
+
+def test_pinned_download_precedes_implicit_partial_workbook(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    workspace = tmp_path / "workspace"
+    base_dir = workspace / "services" / "api"
+    base_dir.mkdir(parents=True)
+    (workspace / "challenge_data_cleaned.xlsx").write_bytes(b"partial workbook")
+    expected_hash = "a" * 64
+    settings = Settings(
+        base_dir=base_dir,
+        data_dir=tmp_path / "data",
+        database_path=tmp_path / "production.duckdb",
+        dataset_path=None,
+        dataset_url=OFFICIAL_DATASET_URL,
+        dataset_sha256=expected_hash,
+        internal_api_key=None,
+        allow_demo_fallback=False,
+    )
+    official = SourceInfo(
+        path=tmp_path / "challenge_data.csv.gz",
+        kind="official_csv_gz",
+        observed_sha256=expected_hash,
+        checksum_status="verified",
+        source_reference=OFFICIAL_DATASET_URL,
+        byte_size=123,
+        partial_data=False,
+    )
+
+    def fake_download(_settings: Settings, *, require_checksum: bool) -> SourceInfo:
+        assert require_checksum is True
+        return official
+
+    monkeypatch.setattr(bootstrap_module, "_download_dataset", fake_download)
+
+    assert (
+        resolve_source(
+            settings,
+            download=True,
+            require_download_checksum=True,
+        )
+        is official
+    )
 
 
 def test_spreadsheet_row_ceiling_is_marked_partial() -> None:

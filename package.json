@@ -9,8 +9,8 @@
   },
   "scripts": {
     "dev": "node scripts/dev.mjs",
-    "dev:web": "pnpm --dir apps/web dev",
-    "dev:api": "python -m uvicorn app.main:app --app-dir services/api --host 0.0.0.0 --port 8000",
+    "dev:web": "node scripts/dev.mjs web",
+    "dev:api": "node scripts/dev.mjs api",
     "build": "pnpm --dir apps/web build",
     "lint": "pnpm --dir apps/web lint",
     "typecheck": "pnpm --dir apps/web typecheck",
