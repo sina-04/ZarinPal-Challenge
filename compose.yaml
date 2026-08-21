@@ -4,16 +4,16 @@ services:
       context: ./services/api
       dockerfile: Dockerfile
       args:
-        ALLOW_DEMO_FALLBACK: ${ALLOW_DEMO_FALLBACK:-true}
+        ALLOW_DEMO_FALLBACK: ${ALLOW_DEMO_FALLBACK:-false}
         DATASET_URL: ${DATASET_URL:-https://startech.s3.ir-thr-at1.arvanstorage.ir/other%2Fchallenge_data.csv.gz?versionId=}
-        DATASET_SHA256: ${DATASET_SHA256:-}
+        DATASET_SHA256: ${DATASET_SHA256:-84ac8a28df48ca7baeaf0b1cec563a3f0a3516039f5f62e9bfd11124ca35b461}
     environment:
       PORT: "8000"
       TZ: Asia/Tehran
       INTERNAL_API_KEY: ${INTERNAL_API_KEY:-local-development-only-change-me}
       DATASET_URL: ${DATASET_URL:-https://startech.s3.ir-thr-at1.arvanstorage.ir/other%2Fchallenge_data.csv.gz?versionId=}
-      DATASET_SHA256: ${DATASET_SHA256:-}
-      ALLOW_DEMO_FALLBACK: ${ALLOW_DEMO_FALLBACK:-true}
+      DATASET_SHA256: ${DATASET_SHA256:-84ac8a28df48ca7baeaf0b1cec563a3f0a3516039f5f62e9bfd11124ca35b461}
+      ALLOW_DEMO_FALLBACK: ${ALLOW_DEMO_FALLBACK:-false}
       DATA_DIR: /app/data
       DATABASE_PATH: /app/data/analytics.duckdb
     ports:

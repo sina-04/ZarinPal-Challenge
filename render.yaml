@@ -16,7 +16,7 @@ services:
       - key: DATASET_URL
         value: https://startech.s3.ir-thr-at1.arvanstorage.ir/other%2Fchallenge_data.csv.gz?versionId=
       - key: DATASET_SHA256
-        sync: false
+        value: 84ac8a28df48ca7baeaf0b1cec563a3f0a3516039f5f62e9bfd11124ca35b461
       - key: ALLOW_DEMO_FALLBACK
         value: "false"
       - key: INTERNAL_API_KEY

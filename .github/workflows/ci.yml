@@ -186,7 +186,7 @@ jobs:
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       - name: Build API image
-        run: docker build --build-arg ALLOW_DEMO_FALLBACK=true --tag nabz-zarin-api:ci --file services/api/Dockerfile services/api
+        run: docker build --build-arg ALLOW_DEMO_FALLBACK=false --build-arg DATASET_SHA256=84ac8a28df48ca7baeaf0b1cec563a3f0a3516039f5f62e9bfd11124ca35b461 --tag nabz-zarin-api:ci --file services/api/Dockerfile services/api
 
       - name: Build web image
         run: docker build --tag nabz-zarin-web:ci --file apps/web/Dockerfile .

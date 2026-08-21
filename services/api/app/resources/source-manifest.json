@@ -1,9 +1,25 @@
 {
   "schema_version": "1.0",
   "url": "https://startech.s3.ir-thr-at1.arvanstorage.ir/other%2Fchallenge_data.csv.gz?versionId=",
-  "expected_sha256": null,
-  "checksum_status": "awaiting-first-successful-official-download",
-  "note": "The official host was unreachable during initial implementation. Bootstrap records the observed SHA-256 and enforces DATASET_SHA256 when supplied; no hash is fabricated.",
+  "expected_sha256": "84ac8a28df48ca7baeaf0b1cec563a3f0a3516039f5f62e9bfd11124ca35b461",
+  "source_kind": "official_csv_gz",
+  "checksum_status": "verified",
+  "partial_data": false,
+  "official_csv_gz": {
+    "bytes": 61282974,
+    "sha256": "84ac8a28df48ca7baeaf0b1cec563a3f0a3516039f5f62e9bfd11124ca35b461",
+    "attempt_rows": 2213289,
+    "session_rows": 2062839,
+    "customer_rows": 396374,
+    "merchant_rows": 343,
+    "data_start": "2026-01-01",
+    "data_end": "2026-06-30",
+    "partial_data": false,
+    "validation_errors": 0,
+    "session_conflicts": 0,
+    "status": "verified-and-materialized"
+  },
+  "note": "The official CSV.GZ was downloaded, checksum-verified, contract-validated without errors or session conflicts, and materialized successfully.",
   "local_cleaned_xlsx": {
     "bytes": 119901253,
     "sha256": "34b265c9d9c9fd865a838ed017fd7d62625f6d41ae23bfe7cca59e6a36d82693",

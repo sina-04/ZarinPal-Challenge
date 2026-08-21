@@ -32,7 +32,7 @@ flowchart LR
 - Python 3.12
 - برای اجرای کانتینری: Docker Desktop یا Docker Engine به همراه Compose
 
-Docker روی محیط اولیه توسعه این پروژه نصب نبود؛ بنابراین اجرای محلی کانتینر تنها پس از نصب Docker ممکن است. CI، Dockerfile وب را می‌سازد و Dockerfile API را با **دموی صریح** smoke-build می‌کند؛ چون SHA-256 منبع رسمی هنوز در دسترس نیست، مسیر immutable تولیدی در CI اجرا نمی‌شود و استقرار واقعی فقط با `DATASET_SHA256` رسمی ساخته می‌شود.
+Docker روی محیط اولیه توسعه این پروژه نصب نبود؛ بنابراین اجرای محلی کانتینر تنها پس از نصب Docker ممکن است. CI هر دو Dockerfile را می‌سازد؛ تصویر API در CI نیز با SHA-256 رسمی pin‌شده، `ALLOW_DEMO_FALLBACK=false` و DuckDB کامل و immutable ساخته می‌شود.
 
 ## راه‌اندازی محلی
 
@@ -52,23 +52,28 @@ Docker روی محیط اولیه توسعه این پروژه نصب نبود؛
    python -m pip install --requirement services/api/requirements-dev.txt
    ```
 
-3. یکی از دو مسیر داده را انتخاب کنید:
+3. تنظیم پیش‌فرض `.env.example` منبع **رسمی و کامل** است: `DATASET_PATH` خالی، URL رسمی و SHA-256 برابر با `84ac8a28df48ca7baeaf0b1cec563a3f0a3516039f5f62e9bfd11124ca35b461`. فایل pin‌شده `61,282,974` بایت دارد و به `2,213,289` تلاش، `2,062,839` نشست، `396,374` مشتری درون‌پذیرنده و `343` پذیرنده در بازه `2026-01-01` تا `2026-06-30` materialize شده است. validator هیچ خطا یا ناسازگاری نشست پیدا نکرد و manifest مقدار `partial_data=false` دارد.
 
-   - **محلی:** فایل را با `DATASET_PATH` مشخص کنید. فایل تعمیرشده XLSX دقیقاً ۱٬۰۴۸٬۵۷۵ ردیف داده دارد؛ یعنی سقف Excel پس از یک ردیف header. بنابراین ساخت XLSX یا Markdown همیشه با `partial_data=true` علامت‌گذاری می‌شود و کامل‌بودن کل دیتاست چالش را اثبات نمی‌کند.
-   - **رسمی و کامل:** مقدار `DATASET_PATH` را در `.env` کاملاً خالی کنید، سپس `DATASET_URL` و `DATASET_SHA256` فایل CSV.GZ رسمی را قرار دهید. اگر `DATASET_PATH` باقی بماند، بر URL اولویت دارد و SHA رسمی به‌اشتباه با فایل محلی مقایسه می‌شود. هش را فقط از فایل رسمی دانلودشده محاسبه کنید؛ مقدار حدسی مجاز نیست:
+   برای بازتولید مستقل دانلود و هش:
 
    ```powershell
-   Get-FileHash .\challenge_data.csv.gz -Algorithm SHA256
+   $officialUrl = "https://startech.s3.ir-thr-at1.arvanstorage.ir/other%2Fchallenge_data.csv.gz?versionId="
+   $officialSha = "84ac8a28df48ca7baeaf0b1cec563a3f0a3516039f5f62e9bfd11124ca35b461"
+   Invoke-WebRequest -Uri $officialUrl -OutFile .\challenge_data.csv.gz
+   if ((Get-FileHash .\challenge_data.csv.gz -Algorithm SHA256).Hash.ToLowerInvariant() -ne $officialSha) { throw "Dataset checksum mismatch" }
    ```
 
    سپس قرارداد داده را روی CSV.GZ رسمی اجرا و گزارش JSON را نگه دارید. برای ساخت صریح DuckDB نیز از همان فایل اعتبارسنجی‌شده استفاده کنید:
 
    ```powershell
    python zarinpal-agent-skills/.agents/skills/zarinpal-data-contract/scripts/validate_dataset.py .\challenge_data.csv.gz --json-output .\artifacts\data-validation.json --fail-on-errors
+   $env:DATASET_SHA256="84ac8a28df48ca7baeaf0b1cec563a3f0a3516039f5f62e9bfd11124ca35b461"
    Push-Location services/api
    python -m app.bootstrap --source ..\..\challenge_data.csv.gz --database .data\analytics.duckdb --json-output ..\..\artifacts\build-manifest.json
    Pop-Location
    ```
+
+   **جایگزین محلی و جزئی:** برای استفاده از فایل تعمیرشده XLSX، در `.env` مقدار `DATASET_PATH=challenge_data_cleaned.xlsx` و `DATASET_SHA256=34b265c9d9c9fd865a838ed017fd7d62625f6d41ae23bfe7cca59e6a36d82693` را با هم قرار دهید. این فایل دقیقاً `1,048,575` ردیف داده، یعنی سقف Excel پس از header، دارد؛ بنابراین `partial_data=true` است و کامل‌بودن کل دیتاست را اثبات نمی‌کند. هر مسیر محلی غیرخالی بر URL رسمی اولویت دارد. اگر workbook محلی را در ریشه نگه داشته‌اید و می‌خواهید اجرای محلی را حتماً روی داده کامل انجام دهید، CSV.GZ رسمی دانلودشده را صریحاً در `DATASET_PATH` قرار دهید.
 
 4. هر دو سرویس را اجرا کنید:
 
@@ -87,24 +92,22 @@ pnpm dev:web
 
 ### اجرای Docker Compose
 
-Compose دو حالت صریح دارد و هیچ‌کدام به‌صورت پنهانی به دیگری تبدیل نمی‌شود.
+Compose به‌طور پیش‌فرض تصویر کامل را با SHA رسمی pin‌شده و بدون fallback می‌سازد. فرمان صریح این حالت نیز چنین است؛ خطای دانلود یا mismatch عمداً build را متوقف می‌کند:
 
-برای رابط و تست محلی، دموی کالیبره‌شده را مستقیماً بسازید؛ این فرمان ابتدا دانلود رسمی را امتحان نمی‌کند:
+```powershell
+$env:ALLOW_DEMO_FALLBACK="false"
+$env:DATASET_SHA256="84ac8a28df48ca7baeaf0b1cec563a3f0a3516039f5f62e9bfd11124ca35b461"
+docker compose up --build
+```
+
+برای رابط و تست محلی می‌توان دموی کالیبره‌شده را عمداً و مستقیماً ساخت؛ این حالت ابتدا دانلود رسمی را امتحان نمی‌کند:
 
 ```powershell
 $env:ALLOW_DEMO_FALLBACK="true"
 docker compose up --build
 ```
 
-برای ساخت کامل و immutable، fallback را خاموش و SHA رسمی را ارائه کنید؛ نبودن SHA، خطای دانلود یا mismatch عمداً build را متوقف می‌کند:
-
-```powershell
-$env:ALLOW_DEMO_FALLBACK="false"
-$env:DATASET_SHA256="<official-sha256>"
-docker compose up --build
-```
-
-حالت دموی Compose فقط برای توسعه رابط و تست است. خروجی مسابقه و استقرار واقعی باید از حالت دوم و CSV.GZ رسمی استفاده کند.
+این دو حالت به‌صورت پنهانی به یکدیگر تبدیل نمی‌شوند. دموی Compose فقط برای توسعه رابط و تست است؛ خروجی مسابقه و استقرار واقعی از CSV.GZ رسمی و `partial_data=false` استفاده می‌کند.
 
 ## کنترل کیفیت
 
@@ -176,12 +179,11 @@ POST /api/chat                         # same-origin Next.js route
 
 ## استقرار روی Render
 
-فایل `render.yaml` برای پایداری دموی مسابقه دو Docker Web Service روی پلن پولی **Starter** می‌سازد. پیش از ایجاد Blueprint، هزینه روز Render را بررسی کنید؛ برای آزمایش کم‌هزینه‌تر می‌توان `plan` را موقتاً به `free` تغییر داد، با پذیرش cold start و منابع کمتر. سرویس وب از شبکه خصوصی Render به `API_HOSTPORT` متصل می‌شود و همان راز تولیدشده API را از `envVarKey` دریافت می‌کند. پیش از اولین sync:
+فایل `render.yaml` برای استقرار مسابقه دو Docker Web Service روی پلن پولی **Starter** می‌سازد. پیش از ایجاد Blueprint، هزینه روز Render را بررسی کنید؛ برای آزمایش کم‌هزینه‌تر می‌توان `plan` را موقتاً به `free` تغییر داد، با پذیرش cold start و منابع کمتر. سرویس وب از شبکه خصوصی Render به `API_HOSTPORT` متصل می‌شود و همان راز تولیدشده API را از `envVarKey` دریافت می‌کند. Blueprint، URL رسمی، SHA-256 معتبر و `ALLOW_DEMO_FALLBACK=false` را از قبل pin کرده است. پس از sync:
 
-1. `DATASET_SHA256` رسمی را وارد کنید؛
-2. در صورت نیاز `OPENAI_API_KEY` را وارد کنید یا خالی بگذارید تا پاسخ قطعی fallback فعال باشد؛
-3. بعد از استقرار، بدنه پاسخ API در `/healthz` را بررسی کنید و مطمئن شوید `status=ok`، `database_ready=true`، `checksum_status=verified` و `source_kind` منبع رسمی است. مسیر وب `/api/health` فقط برای بالادست در دسترس و DuckDB آماده HTTP 200 می‌دهد و در قطع API یا آماده‌نبودن DB مقدار 503 برمی‌گرداند؛ بااین‌حال حالت نمونهٔ جزئی نیز می‌تواند آمادهٔ سرویس و `status=degraded` باشد، پس برای تأیید دادهٔ کامل همچنان بدنهٔ `/healthz` مرجع است؛
-4. smoke test دسکتاپ و موبایل را با دستور سازگار با PowerShell روی URL عمومی اجرا کنید:
+1. در صورت نیاز `OPENAI_API_KEY` را وارد کنید یا خالی بگذارید تا پاسخ قطعی fallback فعال باشد؛
+2. بدنه پاسخ API در `/healthz` را بررسی کنید و مطمئن شوید `status=ok`، `database_ready=true`، `checksum_status=verified`، `partial_data=false` و `source_kind` منبع رسمی است. مسیر وب `/api/health` فقط برای بالادست در دسترس و DuckDB آماده HTTP 200 می‌دهد و در قطع API یا آماده‌نبودن DB مقدار 503 برمی‌گرداند؛ بااین‌حال حالت نمونهٔ جزئی نیز می‌تواند آمادهٔ سرویس و `status=degraded` باشد، پس برای تأیید دادهٔ کامل همچنان بدنهٔ `/healthz` مرجع است؛
+3. smoke test دسکتاپ و موبایل را با دستور سازگار با PowerShell روی URL عمومی اجرا کنید:
 
    ```powershell
    $env:BASE_URL="https://your-web-service.onrender.com"
