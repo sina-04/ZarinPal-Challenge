@@ -1,48 +1,48 @@
-# نبض زرین
+# Zarin Pulse
 
-«نبض زرین» یک محصول تحلیلی فارسی و راست‌به‌چپ برای چالش داده زرین‌پال است. محصول ابتدا شاخص‌ها و پیشنهادها را به‌صورت قطعی در DuckDB محاسبه می‌کند و سپس، در صورت وجود کلید OpenAI، آن‌ها را با یک تحلیل‌گر هوشمند توضیح می‌دهد. مدل زبانی منبع حقیقت نیست و فقط شواهد اعتبارسنجی‌شده را شرح می‌دهد.
+“Zarin Pulse” is a Persian, right-to-left analytical product for the ZarinPal data challenge. The product first calculates metrics and recommendations deterministically in DuckDB and then, when an OpenAI key is available, explains them through an intelligent analyst. The language model is not the source of truth and only describes validated evidence.
 
-## قابلیت‌ها
+## Features
 
-- **مرکز اقدام:** سه اقدام اولویت‌دار با محرک عددی، سازوکار مورد انتظار، قدرت شواهد و برنامه سنجش.
-- **رشد و فرصت‌ها:** تجزیه درآمد تأییدشده، رفتار مشاهده‌شده کارت‌های تکراری، بازه مبلغ، همتایان و سناریوی فرصت.
-- **پایداری پرداخت:** مسیر Created → Attempted → InBank → Paid → Verified، عدم تأیید پس از پرداخت، بازیابی با تلاش مجدد، کدهای PSP و تأخیر API.
-- **شواهد و تحلیل‌گر:** تعریف و فرمول شاخص، دامنه داده، مقایسه، ردیف‌های مجاز همان پذیرنده، محدودیت‌ها و پاسخ هوشمند منبع‌دار.
-- تجربه واکنش‌گرا با ناوبری کناری دسکتاپ، ناوبری پایین موبایل، فیلتر موبایلی و نمایش تمام‌صفحه شواهد.
+- **Action Center:** Three prioritized actions with a numerical trigger, expected mechanism, evidence strength, and measurement plan.
+- **Growth and Opportunities:** Breakdown of verified revenue, observed behavior of repeat cards, amount ranges, peer groups, and opportunity scenarios.
+- **Payment Reliability:** The Created → Attempted → InBank → Paid → Verified journey, non-verification after payment, recovery through retry attempts, PSP codes, and API latency.
+- **Evidence and Analyst:** Metric definitions and formulas, data scope, comparisons, permitted rows belonging to the same merchant, limitations, and sourced intelligent responses.
+- A responsive experience with desktop sidebar navigation, mobile bottom navigation, mobile filters, and full-screen evidence presentation.
 
-## معماری
+## Architecture
 
 ```mermaid
 flowchart LR
-    Browser[مرورگر] -->|same-origin| Web[Next.js / apps/web]
+    Browser[Browser] -->|same-origin| Web[Next.js / apps/web]
     Web -->|X-Internal-API-Key| API[FastAPI / services/api]
     API --> DB[(DuckDB read-only)]
-    Source[CSV.GZ رسمی] --> Pipeline[اعتبارسنجی و ساخت قطعی]
+    Source[Official CSV.GZ] --> Pipeline[Deterministic validation and build]
     Pipeline --> DB
     API --> Evidence[Metric registry + evidence contract]
-    Web -. شواهد مجاز .-> LLM[OpenAI Responses API اختیاری]
+    Web -. permitted evidence .-> LLM[Optional OpenAI Responses API]
     Evidence --> LLM
 ```
 
-مرورگر هیچ‌گاه مستقیماً به API تحلیلی یا کلید OpenAI دسترسی ندارد. Route Handlerهای Next.js درخواست‌های تحلیلی را با راز داخلی به FastAPI می‌فرستند. هر ادعای عددی رابط کاربری یک `metric_id` و `insight_id` پایدار دارد و از همان محاسبه‌ای ساخته می‌شود که مقدار نمایش‌داده‌شده را تولید کرده است.
+The browser never receives direct access to the analytical API or the OpenAI key. Next.js Route Handlers forward analytical requests to FastAPI using an internal secret. Every numerical claim in the user interface has a stable `metric_id` and `insight_id` and is generated from the same calculation that produces the displayed value.
 
-## پیش‌نیازها
+## Prerequisites
 
-- Node.js 22 یا جدیدتر و Corepack
+- Node.js 22 or newer and Corepack
 - Python 3.12
-- برای اجرای کانتینری: Docker Desktop یا Docker Engine به همراه Compose
+- For containerized execution: Docker Desktop or Docker Engine with Compose
 
-Docker روی محیط اولیه توسعه این پروژه نصب نبود؛ بنابراین اجرای محلی کانتینر تنها پس از نصب Docker ممکن است. CI هر دو Dockerfile را می‌سازد؛ تصویر API در CI نیز با SHA-256 رسمی pin‌شده، `ALLOW_DEMO_FALLBACK=false` و DuckDB کامل و immutable ساخته می‌شود.
+Docker was not installed in the initial development environment for this project; therefore, local container execution is only possible after Docker is installed. CI builds both Dockerfiles; the API image in CI is also built using the officially pinned SHA-256, `ALLOW_DEMO_FALLBACK=false`, and a complete, immutable DuckDB database.
 
-## راه‌اندازی محلی
+## Local Setup
 
-1. تنظیمات نمونه را کپی کنید و رازها را تغییر دهید:
+1. Copy the sample configuration and change the secrets:
 
    ```powershell
    Copy-Item .env.example .env
    ```
 
-2. وابستگی‌های وب و API را نصب کنید:
+2. Install the web and API dependencies:
 
    ```powershell
    corepack enable
@@ -52,9 +52,9 @@ Docker روی محیط اولیه توسعه این پروژه نصب نبود؛
    python -m pip install --requirement services/api/requirements-dev.txt
    ```
 
-3. تنظیم پیش‌فرض `.env.example` منبع **رسمی و کامل** است: `DATASET_PATH` خالی، URL رسمی و SHA-256 برابر با `84ac8a28df48ca7baeaf0b1cec563a3f0a3516039f5f62e9bfd11124ca35b461`. فایل pin‌شده `61,282,974` بایت دارد و به `2,213,289` تلاش، `2,062,839` نشست، `396,374` مشتری درون‌پذیرنده و `343` پذیرنده در بازه `2026-01-01` تا `2026-06-30` materialize شده است. validator هیچ خطا یا ناسازگاری نشست پیدا نکرد و manifest مقدار `partial_data=false` دارد.
+3. The default configuration in `.env.example` uses the **official and complete** source: an empty `DATASET_PATH`, the official URL, and SHA-256 value `84ac8a28df48ca7baeaf0b1cec563a3f0a3516039f5f62e9bfd11124ca35b461`. The pinned file is `61,282,974` bytes and materializes into `2,213,289` attempts, `2,062,839` sessions, `396,374` merchant-scoped customers, and `343` merchants covering the period from `2026-01-01` to `2026-06-30`. The validator found no errors or session inconsistencies, and the manifest contains `partial_data=false`.
 
-   برای بازتولید مستقل دانلود و هش:
+   To independently reproduce the download and hash verification:
 
    ```powershell
    $officialUrl = "https://startech.s3.ir-thr-at1.arvanstorage.ir/other%2Fchallenge_data.csv.gz?versionId="
@@ -63,7 +63,7 @@ Docker روی محیط اولیه توسعه این پروژه نصب نبود؛
    if ((Get-FileHash .\challenge_data.csv.gz -Algorithm SHA256).Hash.ToLowerInvariant() -ne $officialSha) { throw "Dataset checksum mismatch" }
    ```
 
-   سپس قرارداد داده را روی CSV.GZ رسمی اجرا و گزارش JSON را نگه دارید. برای ساخت صریح DuckDB نیز از همان فایل اعتبارسنجی‌شده استفاده کنید:
+   Then run the data contract against the official CSV.GZ and retain the JSON report. To explicitly build DuckDB, use the same validated file:
 
    ```powershell
    python zarinpal-agent-skills/.agents/skills/zarinpal-data-contract/scripts/validate_dataset.py .\challenge_data.csv.gz --json-output .\artifacts\data-validation.json --fail-on-errors
@@ -73,26 +73,26 @@ Docker روی محیط اولیه توسعه این پروژه نصب نبود؛
    Pop-Location
    ```
 
-   **جایگزین محلی و جزئی:** برای استفاده از فایل تعمیرشده XLSX، در `.env` مقدار `DATASET_PATH=challenge_data_cleaned.xlsx` و `DATASET_SHA256=34b265c9d9c9fd865a838ed017fd7d62625f6d41ae23bfe7cca59e6a36d82693` را با هم قرار دهید. این فایل دقیقاً `1,048,575` ردیف داده، یعنی سقف Excel پس از header، دارد؛ بنابراین `partial_data=true` است و کامل‌بودن کل دیتاست را اثبات نمی‌کند. هر مسیر محلی غیرخالی بر URL رسمی اولویت دارد. اگر workbook محلی را در ریشه نگه داشته‌اید و می‌خواهید اجرای محلی را حتماً روی داده کامل انجام دهید، CSV.GZ رسمی دانلودشده را صریحاً در `DATASET_PATH` قرار دهید.
+   **Local partial alternative:** To use the repaired XLSX file, set both `DATASET_PATH=challenge_data_cleaned.xlsx` and `DATASET_SHA256=34b265c9d9c9fd865a838ed017fd7d62625f6d41ae23bfe7cca59e6a36d82693` in `.env`. This file contains exactly `1,048,575` data rows, which is Excel’s maximum row limit after the header; therefore, `partial_data=true`, and it does not prove completeness of the full dataset. Any non-empty local path takes precedence over the official URL. If you keep the local workbook at the repository root and want to ensure that local execution uses the complete dataset, explicitly set `DATASET_PATH` to the downloaded official CSV.GZ file.
 
-4. هر دو سرویس را اجرا کنید:
+4. Run both services:
 
    ```powershell
    pnpm dev
    ```
 
-   وب در `http://localhost:3000`، API در `http://localhost:8000` و سلامت عمومی API در `http://localhost:8000/healthz` در دسترس است.
+   The web application is available at `http://localhost:3000`, the API at `http://localhost:8000`, and the public API health endpoint at `http://localhost:8000/healthz`.
 
-برای اجرای جداگانه:
+To run them separately:
 
 ```powershell
 pnpm dev:api
 pnpm dev:web
 ```
 
-### اجرای Docker Compose
+### Docker Compose Execution
 
-Compose به‌طور پیش‌فرض تصویر کامل را با SHA رسمی pin‌شده و بدون fallback می‌سازد. فرمان صریح این حالت نیز چنین است؛ خطای دانلود یا mismatch عمداً build را متوقف می‌کند:
+By default, Compose builds the complete image using the officially pinned SHA and without fallback. The explicit command for this mode is shown below; a download failure or checksum mismatch intentionally stops the build:
 
 ```powershell
 $env:ALLOW_DEMO_FALLBACK="false"
@@ -100,71 +100,71 @@ $env:DATASET_SHA256="84ac8a28df48ca7baeaf0b1cec563a3f0a3516039f5f62e9bfd11124ca3
 docker compose up --build
 ```
 
-برای رابط و تست محلی می‌توان دموی کالیبره‌شده را عمداً و مستقیماً ساخت؛ این حالت ابتدا دانلود رسمی را امتحان نمی‌کند:
+For interface development and local testing, the calibrated demo can be intentionally and directly built; this mode does not first attempt the official download:
 
 ```powershell
 $env:ALLOW_DEMO_FALLBACK="true"
 docker compose up --build
 ```
 
-این دو حالت به‌صورت پنهانی به یکدیگر تبدیل نمی‌شوند. دموی Compose فقط برای توسعه رابط و تست است؛ خروجی مسابقه و استقرار واقعی از CSV.GZ رسمی و `partial_data=false` استفاده می‌کند.
+These two modes do not silently convert into one another. The Compose demo is only intended for interface development and testing; the competition output and real deployment use the official CSV.GZ and `partial_data=false`.
 
-## کنترل کیفیت
+## Quality Control
 
 ```powershell
-# واحد و یکپارچه
+# Unit and integration
 pnpm lint
 pnpm typecheck
 pnpm test:web
 pnpm test:api
 
-# قرارداد OpenAPI تولیدشده
+# Generated OpenAPI contract
 pnpm api:types:check
 
-# validatorهای skill روی Linux و Windows در CI
+# Skill validators on Linux and Windows in CI
 python scripts/test_skill_validators.py
 
-# E2E واقعی: FastAPI + Next.js، بدون mock کردن سرویس‌های خود پروژه
+# Real E2E: FastAPI + Next.js, without mocking the project's own services
 pnpm e2e:install
 $env:USE_DEMO_DATA="true"
 pnpm e2e
 ```
 
-برای آزمودن خروجی standalone همان مسیری که Docker و CI اجرا می‌کنند:
+To test the standalone output using the same path executed by Docker and CI:
 
 ```powershell
 pnpm build
-# آماده‌سازی مستقل artifact؛ start:standalone نیز همین مرحله را خودکار اجرا می‌کند.
+# Prepare the standalone artifact independently; start:standalone also performs this step automatically.
 pnpm --dir apps/web prepare:standalone
 pnpm --dir apps/web start:standalone
 ```
 
-Playwright مسیرهای اصلی را در 1440×900 و 390×844 آزمایش می‌کند و سرریز افقی را در عرض‌های 320، 360، 768، 1024، 1366 و 1920 پیکسل می‌سنجد. تست‌ها RTL، زوم ۲۰۰٪، `prefers-reduced-motion`، پنل شواهد و خطاهای جدی/بحرانی WCAG را نیز پوشش می‌دهند. در CI دو بار retry، trace در اولین retry، تصویر و ویدئو فقط هنگام شکست، و گزارش HTML/JUnit فعال است.
+Playwright tests the main journeys at 1440×900 and 390×844 and checks for horizontal overflow at widths of 320, 360, 768, 1024, 1366, and 1920 pixels. The tests also cover RTL, 200% zoom, `prefers-reduced-motion`, the evidence panel, and serious/critical WCAG violations. In CI, two retries, tracing on the first retry, screenshots and video only on failure, and HTML/JUnit reports are enabled.
 
-## قرارداد داده و محدودیت‌ها
+## Data Contract and Limitations
 
-- هر ردیف منبع یک **تلاش پرداخت** است؛ درآمد، تعداد پرداخت و مبلغ متوسط فقط از یک ردیف معتبر به‌ازای هر `session_key` محاسبه می‌شود.
-- `try_seq = 0` یعنی هیچ تلاش پرداختی ثبت نشده و وارد مخرج تحلیل PSP، پاسخ سوئیچ یا تأخیر نمی‌شود.
-- موفقیت نهایی فقط `Verified` است. `Paid` یعنی کارت کسر شده ولی پذیرنده پرداخت را تأیید نکرده است؛ سایر وضعیت‌ها به‌طور کلی «خطای بانک» نامیده نمی‌شوند.
-- `payer_card_key` فقط درون یک پذیرنده یکتا است. کلید مشتری `(merchant_key, payer_card_key)` است و هیچ کارت یا شخصی میان پذیرندگان ردیابی نمی‌شود.
-- کد پاسخ فقط در محدوده `psp_code` مقایسه می‌شود. چون codebook رسمی وجود ندارد، نام‌هایی مانند «موجودی ناکافی» به کدها نسبت داده نمی‌شود.
-- تهی‌بودن داده می‌تواند ساختاری و وابسته به مرحله چرخه پرداخت باشد؛ پیش از حذف یا جای‌گذاری، به تفکیک وضعیت پروفایل می‌شود.
-- `init_time_ms` و `verify_time_ms` زمان API درگاه هستند، نه زمان فکر یا تعامل خریدار.
-- همه مبالغ **ریال ایران (IRR)** هستند.
-- متن اجباری `adjusted_fee`: **Adjusted fee is a uniformly transformed analytical value and does not represent ZarinPal's actual tariff.** در رابط فارسی نیز روشن می‌شود که این مقدار هزینه واقعی زرین‌پال نیست و فقط مقایسه نسبی آن معتبر است.
-- سناریوی فرصت یک محاسبه «اگر-آنگاه» است، نه پیش‌بینی یا تضمین اثر. روابط مشاهده‌ای نیز علّی معرفی نمی‌شوند.
+- Each source row represents a **payment attempt**; revenue, payment count, and average amount are calculated only from one valid row per `session_key`.
+- `try_seq = 0` means that no payment attempt was recorded and is excluded from the denominator of PSP, switch-response, and latency analyses.
+- Final success is only `Verified`. `Paid` means the card was charged but the merchant did not verify the payment; the remaining statuses are not collectively labeled as “bank errors.”
+- `payer_card_key` is unique only within one merchant. The customer key is `(merchant_key, payer_card_key)`, and no card or person is tracked across merchants.
+- A response code is compared only within the scope of `psp_code`. Because no official codebook is available, labels such as “insufficient funds” are not assigned to codes.
+- Missingness may be structural and dependent on the payment lifecycle stage; before deletion or imputation, it is profiled by status.
+- `init_time_ms` and `verify_time_ms` are payment-gateway API times, not the buyer’s thinking or interaction time.
+- All amounts are in **Iranian rials (IRR)**.
+- Required `adjusted_fee` wording: **Adjusted fee is a uniformly transformed analytical value and does not represent ZarinPal's actual tariff.** The Persian interface also makes it clear that this value is not ZarinPal’s actual fee and that only relative comparisons are valid.
+- An opportunity scenario is an “if-then” calculation, not a prediction or a guarantee of impact. Observational relationships are also not presented as causal.
 
-## ردیابی و بازتولید عددها
+## Traceability and Reproduction of Numbers
 
-هر KPI، یادداشت نمودار، هشدار و پیشنهاد باید از یک evidence object معتبر ساخته شود. کنترل «چگونه محاسبه شد؟» موارد زیر را نشان می‌دهد:
+Every KPI, chart annotation, alert, and recommendation must be generated from a valid evidence object. The “How was this calculated?” control displays:
 
-- تعریف، فرمول، دانه‌بندی اصلی، صورت و مخرج؛
-- فیلتر، استثنا، سیاست null، تاریخ و منطقه زمانی `Asia/Tehran`؛
-- حجم نمونه، مبنای مقایسه، وزن‌دهی و حداقل نمونه؛
-- ستون‌های منبع، نسخه محاسبه و مرجع بازتولید؛
-- محدودیت‌ها و، برای پیشنهادها، اقدام و برنامه اندازه‌گیری.
+- Definition, formula, primary grain, numerator, and denominator;
+- Filters, exclusions, null policy, dates, and the `Asia/Tehran` timezone;
+- Sample size, comparison basis, weighting, and minimum sample threshold;
+- Source columns, calculation version, and reproduction reference;
+- Limitations and, for recommendations, the action and measurement plan.
 
-APIهای اصلی:
+Primary APIs:
 
 ```text
 GET  /healthz
@@ -175,15 +175,15 @@ GET  /api/v1/insights/{insight_id}/records?page=&page_size=
 POST /api/chat                         # same-origin Next.js route
 ```
 
-به‌جز `/healthz`، مسیرهای FastAPI در محیطی که `INTERNAL_API_KEY` تنظیم شده فقط با `X-Internal-API-Key` پاسخ می‌دهند. evidence همتایان فقط aggregate است و ردیف خام سایر پذیرندگان به مرورگر یا مدل داده نمی‌شود.
+Except for `/healthz`, FastAPI routes in environments where `INTERNAL_API_KEY` is configured respond only when `X-Internal-API-Key` is provided. Peer evidence is aggregate-only, and raw rows from other merchants are not exposed to the browser or the model.
 
-## استقرار روی Render
+## Deployment on Render
 
-فایل `render.yaml` برای استقرار مسابقه دو Docker Web Service روی پلن پولی **Starter** می‌سازد. پیش از ایجاد Blueprint، هزینه روز Render را بررسی کنید؛ برای آزمایش کم‌هزینه‌تر می‌توان `plan` را موقتاً به `free` تغییر داد، با پذیرش cold start و منابع کمتر. سرویس وب از شبکه خصوصی Render به `API_HOSTPORT` متصل می‌شود و همان راز تولیدشده API را از `envVarKey` دریافت می‌کند. Blueprint، URL رسمی، SHA-256 معتبر و `ALLOW_DEMO_FALLBACK=false` را از قبل pin کرده است. پس از sync:
+The `render.yaml` file deploys two Docker Web Services for the competition on the paid **Starter** plan. Before creating the Blueprint, check Render’s daily pricing; for lower-cost testing, `plan` can temporarily be changed to `free`, with acceptance of cold starts and fewer resources. The web service connects to `API_HOSTPORT` through Render’s private network and receives the same generated API secret through `envVarKey`. The Blueprint pre-pins the official URL, the valid SHA-256, and `ALLOW_DEMO_FALLBACK=false`. After synchronization:
 
-1. در صورت نیاز `OPENAI_API_KEY` را وارد کنید یا خالی بگذارید تا پاسخ قطعی fallback فعال باشد؛
-2. بدنه پاسخ API در `/healthz` را بررسی کنید و مطمئن شوید `status=ok`، `database_ready=true`، `checksum_status=verified`، `partial_data=false` و `source_kind` منبع رسمی است. مسیر وب `/api/health` فقط برای بالادست در دسترس و DuckDB آماده HTTP 200 می‌دهد و در قطع API یا آماده‌نبودن DB مقدار 503 برمی‌گرداند؛ بااین‌حال حالت نمونهٔ جزئی نیز می‌تواند آمادهٔ سرویس و `status=degraded` باشد، پس برای تأیید دادهٔ کامل همچنان بدنهٔ `/healthz` مرجع است؛
-3. smoke test دسکتاپ و موبایل را با دستور سازگار با PowerShell روی URL عمومی اجرا کنید:
+1. Enter `OPENAI_API_KEY` if needed, or leave it empty so that the deterministic fallback response remains active;
+2. Inspect the API response body at `/healthz` and ensure that `status=ok`, `database_ready=true`, `checksum_status=verified`, `partial_data=false`, and `source_kind` indicates the official source. The web route `/api/health` returns HTTP 200 only when the upstream service is available and DuckDB is ready, and returns 503 when the API is unavailable or the database is not ready; however, a partial sample mode may also be service-ready with `status=degraded`, so the `/healthz` response body remains the authoritative source for confirming complete data;
+3. Run desktop and mobile smoke tests against the public URL using the PowerShell-compatible command:
 
    ```powershell
    $env:BASE_URL="https://your-web-service.onrender.com"
@@ -191,31 +191,31 @@ POST /api/chat                         # same-origin Next.js route
    Remove-Item Env:BASE_URL
    ```
 
-مرجع: [Render Blueprint specification](https://render.com/docs/blueprint-spec)، [Render Docker services](https://render.com/docs/docker) و [Next.js self-hosting](https://nextjs.org/docs/app/guides/self-hosting).
+References: [Render Blueprint specification](https://render.com/docs/blueprint-spec), [Render Docker services](https://render.com/docs/docker), and [Next.js self-hosting](https://nextjs.org/docs/app/guides/self-hosting).
 
-## سناریوی ویدئوی تحویل — ۴:۵۰
+## Submission Video Scenario — 4:50
 
-| زمان | نمایش اجباری |
+| Time | Required demonstration |
 | --- | --- |
-| 00:00–00:20 | معرفی تصمیم تجاری، انتخاب M43، بازه تاریخ و توضیح کوتاه دانه‌بندی session/attempt و IRR. |
-| 00:20–01:20 | دسکتاپ: مرکز اقدام، سه پیشنهاد عددی، تغییر درآمد، تجزیه عوامل و نوار چرخه پرداخت. |
-| 01:20–02:05 | دسکتاپ: رشد و پایداری؛ تکرار مشاهده‌شده، گروه همتا، سناریوی فرصت، Paid بدون Verified، retry، PSP و تأخیر API. |
-| 02:05–02:45 | دسکتاپ: «چگونه محاسبه شد؟»، فرمول/صورت/مخرج/محدودیت، ردیف‌های خود M43 و بازتولید مقدار. سپس یک پرسش AI با منبع و fallback بدون کلید. |
-| 02:45–03:55 | موبایل 390px: هر چهار مقصد، ناوبری پایین، فیلتر bottom sheet، نمودار و جدول جایگزین، کارت ردیف‌ها، پنل تمام‌صفحه شواهد و تحلیل‌گر با صفحه‌کلید باز. |
-| 03:55–04:25 | اجرای validator و تست reconciliation؛ نشان‌دادن registry/evidence و اینکه `adjusted_fee` تعرفه واقعی نیست و کد PSP معنی‌گذاری نشده است. |
-| 04:25–04:50 | README، اجرای `pnpm dev`/Docker، CI سبز، لینک GitHub و URL Render. |
+| 00:00–00:20 | Introduce the business decision, select M43, choose the date range, and briefly explain session/attempt granularity and IRR. |
+| 00:20–01:20 | Desktop: Action Center, three numerical recommendations, revenue change, driver decomposition, and the payment lifecycle bar. |
+| 01:20–02:05 | Desktop: Growth and reliability; observed repeat behavior, peer group, opportunity scenario, Paid without Verified, retries, PSP, and API latency. |
+| 02:05–02:45 | Desktop: “How was this calculated?”, formula/numerator/denominator/limitation, M43’s own rows, and reproduction of the value. Then show one sourced AI question and the fallback without a key. |
+| 02:45–03:55 | Mobile at 390 px: all four destinations, bottom navigation, filter bottom sheet, chart and table alternatives, row cards, full-screen evidence panel, and the analyst with the keyboard open. |
+| 03:55–04:25 | Run the validator and reconciliation test; show the registry/evidence and explain that `adjusted_fee` is not the actual tariff and that PSP codes are not semantically labeled. |
+| 04:25–04:50 | README, execution with `pnpm dev`/Docker, green CI, GitHub link, and Render URL. |
 
-ویدئو باید همه قابلیت‌ها را روی **هر دو** دستگاه موبایل و دسکتاپ نشان دهد؛ جدول بالا ترتیب فشرده‌ای است و سقف پنج دقیقه را با حاشیه ده ثانیه رعایت می‌کند.
+The video must demonstrate all capabilities on **both** mobile and desktop devices. The table above provides a compact sequence and keeps the video under the five-minute limit with a ten-second margin.
 
-## ساختار مخزن
+## Repository Structure
 
 ```text
 apps/web/            Next.js, shadcn/ui, ECharts, AI Elements
 services/api/        FastAPI, DuckDB, pipeline, metric/evidence contracts
 tests/e2e/           Playwright desktop/mobile/accessibility
-.github/workflows/   CI با Actionهای pin‌شده به commit SHA
-compose.yaml         اجرای محلی دو سرویس
-render.yaml          استقرار دو سرویس روی Render
+.github/workflows/   CI with Actions pinned to commit SHAs
+compose.yaml         Local execution of both services
+render.yaml          Deployment of both services on Render
 ```
 
-مجوز داده و شرایط استفاده از دیتاست تابع قوانین چالش زرین‌پال است. هیچ شناسه مستعاری نباید برای شناسایی فرد، پذیرنده، بانک یا ترمینال واقعی استفاده شود.
+The dataset license and terms of use are governed by the ZarinPal challenge rules. No pseudonymous identifier may be used to identify any real individual, merchant, bank, or terminal.
