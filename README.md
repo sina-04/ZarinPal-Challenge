@@ -193,20 +193,6 @@ The `render.yaml` file deploys two Docker Web Services for the competition on th
 
 References: [Render Blueprint specification](https://render.com/docs/blueprint-spec), [Render Docker services](https://render.com/docs/docker), and [Next.js self-hosting](https://nextjs.org/docs/app/guides/self-hosting).
 
-## Submission Video Scenario — 4:50
-
-| Time | Required demonstration |
-| --- | --- |
-| 00:00–00:20 | Introduce the business decision, select M43, choose the date range, and briefly explain session/attempt granularity and IRR. |
-| 00:20–01:20 | Desktop: Action Center, three numerical recommendations, revenue change, driver decomposition, and the payment lifecycle bar. |
-| 01:20–02:05 | Desktop: Growth and reliability; observed repeat behavior, peer group, opportunity scenario, Paid without Verified, retries, PSP, and API latency. |
-| 02:05–02:45 | Desktop: “How was this calculated?”, formula/numerator/denominator/limitation, M43’s own rows, and reproduction of the value. Then show one sourced AI question and the fallback without a key. |
-| 02:45–03:55 | Mobile at 390 px: all four destinations, bottom navigation, filter bottom sheet, chart and table alternatives, row cards, full-screen evidence panel, and the analyst with the keyboard open. |
-| 03:55–04:25 | Run the validator and reconciliation test; show the registry/evidence and explain that `adjusted_fee` is not the actual tariff and that PSP codes are not semantically labeled. |
-| 04:25–04:50 | README, execution with `pnpm dev`/Docker, green CI, GitHub link, and Render URL. |
-
-The video must demonstrate all capabilities on **both** mobile and desktop devices. The table above provides a compact sequence and keeps the video under the five-minute limit with a ten-second margin.
-
 ## Repository Structure
 
 ```text
