@@ -1,4 +1,4 @@
-# نبض زرین — analytical API
+# Zarin Pulse — Analytical API
 
 FastAPI + DuckDB service for deterministic, traceable merchant analytics. Source rows are payment attempts; money, final status, and conversion are calculated only after consistency validation at canonical session grain.
 
