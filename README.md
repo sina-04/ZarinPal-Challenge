@@ -1,6 +1,12 @@
 # Zarin Pulse
 
+[![CI](https://github.com/sina-04/ZarinPal-Challenge/actions/workflows/ci.yml/badge.svg)](https://github.com/sina-04/ZarinPal-Challenge/actions/workflows/ci.yml)
+[![Live demo](https://img.shields.io/badge/demo-Render-46E3B7)](https://nabz-zarin-web.onrender.com/)
+[![License: MIT](https://img.shields.io/badge/code%20license-MIT-yellow.svg)](LICENSE)
+
 “Zarin Pulse” is a Persian, right-to-left analytical product for the ZarinPal data challenge. The product first calculates metrics and recommendations deterministically in DuckDB and then, when an OpenAI key is available, explains them through an intelligent analyst. The language model is not the source of truth and only describes validated evidence.
+
+![Zarin Pulse merchant action center](docs/zarin-pulse-dashboard.png)
 
 ## Features
 
@@ -205,3 +211,10 @@ render.yaml          Deployment of both services on Render
 ```
 
 The dataset license and terms of use are governed by the ZarinPal challenge rules. No pseudonymous identifier may be used to identify any real individual, merchant, bank, or terminal.
+
+## License and data terms
+
+Original application code and documentation are available under the
+[MIT License](LICENSE). Challenge data, ZarinPal names and marks, generated
+analytical artifacts, and other externally governed materials are not
+relicensed. See [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).

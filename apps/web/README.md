@@ -1,32 +1,41 @@
-# نبض زرین — وب
+# Zarin Pulse — Web Application
 
-رابط فارسی RTL محصول تحلیلی پذیرندگان، ساخته‌شده با Next.js App Router، shadcn/ui،
-ECharts و AI SDK. محاسبات قطعی از FastAPI دریافت می‌شوند و تحلیل‌گر فقط شواهد
-اعتبارسنجی‌شده را توضیح می‌دهد.
+The Persian RTL merchant-analytics interface is built with the Next.js App
+Router, shadcn/ui, ECharts, and AI SDK. Deterministic calculations come from
+FastAPI; the analyst explains only validated evidence.
 
-از ریشه مخزن pnpm install --frozen-lockfile و سپس pnpm dev را اجرا کنید. وب روی
-پورت 3000 و API روی پورت 8000 اجرا می‌شود.
+From the repository root, install dependencies and start both services:
 
-در اجرای عادی متصل به API، داده رسمی pin‌شده تا `2026-06-30` با
-`checksum_status=verified` و `partial_data=false` استفاده می‌شود. بدون API، فقط
-snapshot جزئی M43 با برچسب آشکار `deterministic_offline_snapshot` و
-`partial_data=true` در دسترس است. بدون `OPENAI_API_KEY` پاسخ قطعی محلی جایگزین
-توضیح مدل می‌شود.
+```powershell
+pnpm install --frozen-lockfile
+pnpm dev
+```
 
-پس از تغییر قرارداد FastAPI، pnpm --dir apps/web api:schema را اجرا کنید.
+The web application uses port 3000 and the API uses port 8000.
 
-برای اجرای خروجی production/standalone از ریشه مخزن:
+In normal API-connected operation, the pinned official dataset through
+`2026-06-30` reports `checksum_status=verified` and
+`partial_data=false`. Without the API, only the visibly labeled partial M43
+snapshot is available as `deterministic_offline_snapshot`. Without
+`OPENAI_API_KEY`, the deterministic local response replaces model-generated
+explanation.
+
+Regenerate web API types after changing the FastAPI contract:
+
+```powershell
+pnpm --dir apps/web api:schema
+```
+
+Build and run the standalone production output:
 
 ```powershell
 pnpm build
-# برای آماده‌سازی artifact بدون اجرا:
 pnpm --dir apps/web prepare:standalone
-# این فرمان prepare را نیز خودکار انجام می‌دهد و سپس server.js را اجرا می‌کند:
 pnpm --dir apps/web start:standalone
 ```
 
-`/api/health` فقط وقتی HTTP 200 می‌دهد که FastAPI در دسترس و DuckDB آماده باشد؛
-قطع بالادست یا دیتابیس ناآماده HTTP 503 می‌دهد. حالت نمونه/جزئی می‌تواند با
-`status=degraded` و `database_ready=true` آمادهٔ سرویس باشد، بنابراین برای تشخیص
-دادهٔ کامل باید `status`، `source_kind` و `checksum_status` بدنهٔ `/healthz` خود API
-نیز بررسی شود.
+`/api/health` returns HTTP 200 only when FastAPI is reachable and DuckDB is
+ready. An unavailable upstream or database returns 503. A partial sample can
+still be service-ready with `status=degraded`, so confirm complete data by
+checking `status`, `source_kind`, and `checksum_status` in the API's
+`/healthz` response.
